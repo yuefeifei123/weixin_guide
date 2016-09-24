@@ -14,7 +14,7 @@ public class UserInfo {
 	private String subscribe;
 	private String subscribe_time;
 	
-	
+	public UserInfo(){}
 	
 	public UserInfo(String city, String country, String groupid, String headimgurl, String language, String nickname,
 			String openid, String province, String remark, String sex, String subscribe, String subscribe_time) {

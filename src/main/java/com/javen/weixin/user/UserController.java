@@ -13,10 +13,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.javen.weixin.user.UserConfig.LangType;
-import com.jfinal.kit.HttpKit;
 import com.jfinal.kit.JsonKit;
 import com.jfinal.kit.PropKit;
-import com.jfinal.weixin.sdk.api.AccessTokenApi;
+import com.jfinal.kit.StrKit;
 import com.jfinal.weixin.sdk.api.ApiConfig;
 import com.jfinal.weixin.sdk.api.ApiResult;
 import com.jfinal.weixin.sdk.api.UserApi;
@@ -36,8 +35,10 @@ import jxl.write.WritableWorkbook;
  */
 public class UserController extends ApiController{
 	private static final Logger log =  Logger.getLogger(UserController.class);
+
+	SimpleDateFormat sfg=new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+
 	String next_openid=null;
-	private static String batchGetUserInfo = "https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=";
 	/**
 	 * 如果要支持多公众账号，只需要在此返回各个公众号对应的 ApiConfig 对象即可 可以通过在请求 url 中挂参数来动态从数据库中获取
 	 * ApiConfig 属性值
@@ -59,11 +60,25 @@ public class UserController extends ApiController{
 				"setting it in config file"));
 		return ac;
 	}
-	
-	
 	public void index(){
-		List<UserInfo> userInfos=new ArrayList<UserInfo>();
-		List<String> allOpenId = getAllOpenId();
+		List<UserInfo> allUserInfo = getAllUserInfo(getAllOpenId());
+		
+		if (!allUserInfo.isEmpty()) {
+			///下载userInfos
+			File file = saveToExcel(allUserInfo);
+			renderFile(file);
+		}else {
+			render("目前暂无用户...");
+		}
+	}
+	
+	/**
+	 * 根据openId列表获取用户信息
+	 * @param allOpenId  
+	 * @return
+	 */
+	private List<UserInfo> getAllUserInfo(List<String> allOpenId){
+		List<UserInfo> userInfos = new ArrayList<UserInfo>();
 		int total=allOpenId.size();
 		UserConfig[] user_list=null;
 		//开发者可通过该接口来批量获取用户基本信息。最多支持一次拉取100条。
@@ -86,24 +101,15 @@ public class UserController extends ApiController{
 				getUserInfo.setUser_list(user_list);
 				String jsonGetUserInfo = JsonKit.toJson(getUserInfo);
 				System.out.println("jsonGetUserInfo："+jsonGetUserInfo);
-//				ApiResult batchGetUserInfo = UserApi.batchGetUserInfo(jsonGetUserInfo);
 				
-				String jsonResult = HttpKit.post(batchGetUserInfo + AccessTokenApi.getAccessTokenStr(), jsonGetUserInfo);
+				ApiResult apiResult = UserApi.batchGetUserInfo(jsonGetUserInfo);
+				
+				String jsonResult = apiResult.getJson();
 				//将json转化为对象
 				List<UserInfo> userInfo = parseJsonToUserInfo(jsonResult);
 				userInfos.addAll(userInfo);
 				page++;
-				try {
-					Thread.sleep(1000*2);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
-			
-			///下载userInfos
-			File file = saveToExcel(userInfos);
-			renderFile(file);
 		}else {
 			user_list=new UserConfig[total];
 			for (int i = 0; i < user_list.length; i++) {
@@ -121,15 +127,12 @@ public class UserController extends ApiController{
 			ApiResult batchGetUserInfo = UserApi.batchGetUserInfo(jsonGetUserInfo);
 			List<UserInfo> userInfo = parseJsonToUserInfo(batchGetUserInfo.getJson());
 			userInfos.addAll(userInfo);
-			
-			renderFile(saveToExcel(userInfos));
-
 		}
-		
-		
+		return userInfos;
 	}
+	
 	/**
-	 * 获取多有的openid
+	 * 获取所有的openid
 	 * @return
 	 */
 	public List<String> getAllOpenId(){
@@ -171,58 +174,14 @@ log.error("json:"+json);
 		
 		renderFile(saveToExcel(userInfos));
 	}
-	
-	
+
 	private List<UserInfo> parseJsonToUserInfo(String jsonResult){
-		List<UserInfo> list=new ArrayList<UserInfo>();
-		SimpleDateFormat sfg=new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
 		JSONObject jo=JSONObject.parseObject(jsonResult);
-		
-		System.out.println("jo>"+jo.toString());
-		
 		JSONArray user_list=jo.getJSONArray("user_info_list");
-		
-		for (int i = 0; i < user_list.size(); i++) {
-			JSONObject userObject=user_list.getJSONObject(i);
-			String city=userObject.getString("city");
-			String country=userObject.getString("country");
-			String groupid=userObject.getString("groupid");
-			String headimgurl=userObject.getString("headimgurl");
-			String language=userObject.getString("language");
-			String nickname=userObject.getString("nickname");
-			String openid=userObject.getString("openid");
-			String province=userObject.getString("province");
-			String remark=userObject.getString("remark");
-			String sex=userObject.getString("sex");
-			//用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
-			
-			if (sex!=null && !sex.equals("")) {
-				int sexInt=Integer.parseInt(sex);
-				if (sexInt==1) {
-					 sex="男";
-				}else if (sexInt==2) {
-					 sex="女";
-				}else {
-					sex="未知";
-				}
-			}
-			else {
-				sex="未知";
-			}
-			String subscribe=userObject.getString("subscribe");
-			String subscribe_time=userObject.getString("subscribe_time");
-			
-			if (subscribe_time!=null && !subscribe_time.equals("")) {
-				subscribe_time=sfg.format(new Date(Long.parseLong(subscribe_time) * 1000L));
-			}
-			
-			list.add(new UserInfo(city, country, groupid, headimgurl, language, nickname, openid, province, remark, sex, subscribe, subscribe_time));
-		}
-		return list;
-		
-		
+		List<UserInfo> list = JSON.parseArray(user_list.toString(),UserInfo.class);
+		return  list;
+
 	}
-	
 	/**
 	 * 将详细的用户信息保存到Excel
 	 * @param userInfos
@@ -294,14 +253,35 @@ log.error("json:"+json);
 			    Label labelId_i= new Label(0, i+2, i+1+"");
 			    Label nickName= new Label(1, i+2, userInfos.get(i).getNickname());
 			    Label openid= new Label(2, i+2, userInfos.get(i).getOpenid());
-			    Label sex= new Label(3, i+2, userInfos.get(i).getSex());
+
+				String sexStr=userInfos.get(i).getSex();
+				//用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
+				if (StrKit.notBlank(sexStr)) {
+					int sexInt=Integer.parseInt(sexStr);
+					if (sexInt==1) {
+						sexStr="男";
+					}else if (sexInt==2) {
+						sexStr="女";
+					}
+				}else {
+					sexStr="未知";
+				}
+
+			    Label sex= new Label(3, i+2, sexStr);
 			    Label country= new Label(4, i+2, userInfos.get(i).getCountry());
 			    Label province= new Label(5, i+2, userInfos.get(i).getProvince());
 			    Label city= new Label(6, i+2, userInfos.get(i).getCity());
 			    Label language= new Label(7, i+2, userInfos.get(i).getLanguage());
 			    Label headimgaeurl= new Label(8, i+2, userInfos.get(i).getHeadimgurl());
-			    Label subscribe= new Label(9, i+2, userInfos.get(i).getSubscribe());
-			    Label subscribetime= new Label(10, i+2, userInfos.get(i).getSubscribe_time());
+
+			    Label subscribe= new Label(9, i+2, userInfos.get(i).getSubscribe().equals("1")?"已关注":"未关注");
+				//获取关注时间
+				String subscribe_time = userInfos.get(i).getSubscribe_time();
+
+				if (StrKit.notBlank(subscribe_time)) {
+					subscribe_time=sfg.format(new Date(Long.parseLong(subscribe_time) * 1000L));
+				}
+			    Label subscribetime= new Label(10, i+2, subscribe_time);
 			    Label groupid= new Label(11, i+2, userInfos.get(i).getGroupid());
 			    Label remark= new Label(12, i+2, userInfos.get(i).getRemark());
 			    ws.addCell(labelId_i);
