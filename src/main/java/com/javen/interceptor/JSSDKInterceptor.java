@@ -17,7 +17,7 @@ import com.jfinal.weixin.sdk.api.JsTicketApi.JsApiType;
  * @author Javen
  * 2016年5月13日
  */
-public class ShareInterceptor   implements Interceptor{
+public class JSSDKInterceptor   implements Interceptor{
 	/**
 	 * 如果要支持多公众账号，只需要在此返回各个公众号对应的 ApiConfig 对象即可 可以通过在请求 url 中挂参数来动态从数据库中获取
 	 * ApiConfig 属性值
@@ -75,6 +75,7 @@ public class ShareInterceptor   implements Interceptor{
 		System.out.println("nonceStr " + nonce_str + " timestamp " + timestamp);
 		System.out.println(" jsapi_ticket " + jsapi_ticket);
 		System.out.println("nonce_str  " + nonce_str);
+		
 		controller.setAttr("appId", ApiConfigKit.getApiConfig().getAppId());
 		controller.setAttr("nonceStr", nonce_str);
 		controller.setAttr("timestamp", timestamp);

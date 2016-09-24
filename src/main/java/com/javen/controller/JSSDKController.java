@@ -1,6 +1,6 @@
 package com.javen.controller;
 
-import com.javen.interceptor.ShareInterceptor;
+import com.javen.interceptor.JSSDKInterceptor;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 
@@ -11,8 +11,8 @@ import com.jfinal.core.Controller;
 /**
  * 对整个Controller或者其中的方法添加JSSDK签名验证拦截器
  */
-@Before(ShareInterceptor.class)
-public class ShareController extends Controller{
+@Before(JSSDKInterceptor.class)
+public class JSSDKController extends Controller{
 	
 	public void index(){
 		render("share.jsp");

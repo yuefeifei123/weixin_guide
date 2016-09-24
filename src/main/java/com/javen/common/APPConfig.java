@@ -7,7 +7,7 @@ import com.javen.controller.AjaxFileContorlller;
 import com.javen.controller.ConstellationController;
 import com.javen.controller.FileController;
 import com.javen.controller.IndexController;
-import com.javen.controller.ShareController;
+import com.javen.controller.JSSDKController;
 import com.javen.controller.TUserController;
 import com.javen.model.Course;
 import com.javen.model.Idea;
@@ -81,7 +81,7 @@ public class APPConfig extends JFinalConfig{
 		me.add("/msg", WeixinMsgController.class);
 		me.add("/api", WeixinApiController.class);
 		me.add("/oauth", WeiXinOauthController.class);
-		me.add("/share", ShareController.class,"/view");
+		me.add("/jssdk", JSSDKController.class,"/view");
 		//可以去掉 /front
 		me.add("/pay", WeixinPayController.class,"/front");
 		me.add("/", IndexController.class,"/front");
