@@ -8,6 +8,9 @@ weixin_guide 是基于 JFinal 的微信公众号极速开发 SDK，只需浏览 
 ## 2、WIKI持续更新中
 `详见请见`：[WIKI](http://git.oschina.net/javen205/weixin_guide/wikis/home)
 
+
+[详细的图文教程-项目导入IDE并启动运行、如何成为开发者模式、如何实现消息交互、如何自定义菜单、如何授权获取用户信息 等](http://www.jianshu.com/p/a172a1b69fdd)
+
 `欢迎更多同学来帮助完善！`
 
 ## 3、版本更新记录
@@ -24,17 +27,16 @@ weixin_guide 是基于 JFinal 的微信公众号极速开发 SDK，只需浏览 
 - 以上两种方法注意要先将pom.xml中的导出类型设置为 war，添加 <packaging>war</packaging> 内容进去即可
 - 依赖jackson或fastjson
 
-## 6、jar包依赖详细说明
-`详见请见`：[JFinal weixin Jar的依赖](http://git.oschina.net/jfinal/jfinal-weixin/wikis/JFinal-weixin-1.6-Jar%E4%BE%9D%E8%B5%96)
 
 
-## 7、更多支持
+## 6、更多支持
 - 交流群：148540125(备注项目名称、进群发广告T)
 - Email：javen205@126.com
-- QQ/微信：572839485
 
-说明:以下3种情况可以与我QQ/微信联系 
-- 有开发订单要给我做的。
-- 单身的漂亮妹子想找靠谱对象的。
-- 要给我发红包的。
+## 7、鸣谢
+
+JFinal
+Jfinal-weixin
+
+
 
