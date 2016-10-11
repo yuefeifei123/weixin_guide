@@ -56,6 +56,7 @@
 	/* 微信支付 */
 	function wxpay(){
 		$.showLoading("正在加载...");
+		//测试时修改为自己的openId 如果不修改会出现【下单账号与支付账号不一致】的提示 这里最好授权获取
 		var openId="o_pncsidC-pRRfCP4zj98h6slREw";
 		var total_fee=$("#count").val();
 		$.post("<%=path %>/pay",
