@@ -83,7 +83,7 @@ public class APPConfig extends JFinalConfig{
 		me.add("/oauth", WeiXinOauthController.class);
 		me.add("/jssdk", JSSDKController.class,"/view");
 		//可以去掉 /front
-		me.add("/pay", WeixinPayController.class,"/front");
+		me.add("/pay", WeixinPayController.class,"/view");
 		me.add("/", IndexController.class,"/front");
 		me.add("/tuser", TUserController.class,"/back");
 		

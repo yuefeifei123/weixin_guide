@@ -1,6 +1,7 @@
 package com.javen.weixin.controller;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -10,12 +11,16 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.javen.entity.PayAttach;
+import com.javen.kit.ZxingKit;
 import com.javen.model.Order;
 import com.javen.utils.StringUtils;
 import com.javen.vo.AjaxResult;
 import com.jfinal.kit.HttpKit;
 import com.jfinal.kit.JsonKit;
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
@@ -219,11 +224,31 @@ public class WeixinPayController extends ApiController {
 		return StringUtils.replace(url, "XXXXX", packageSign,appid,partner,product_id,timeStamp,nonceStr);
 	}
 	
+	/**
+	 * 生成支付二维码（模式一）并在页面上显示
+	 */
+	public void scanCode1(){
+		//获取扫码支付（模式一）url
+		String qrCodeUrl=getCodeUrl();
+		System.out.println(qrCodeUrl);
+		//生成二维码保存的路径
+		String name = "payQRCode.png";
+		Boolean encode = ZxingKit.encode(qrCodeUrl, BarcodeFormat.QR_CODE, 3, ErrorCorrectionLevel.H, "png", 200, 200,
+				PathKit.getWebRootPath()+File.separator+"view"+File.separator+name );
+		if (encode) {
+			//在页面上显示
+			setAttr("payQRCode", name);
+			render("payQRCode.jsp");
+		}
+	}
+	
 	public void test(){
 		renderText(getCodeUrl());
 		
 	}
-	
+	/**
+	 * 扫码支付模式一回调
+	 */
 	public void wxpay(){
 		try {
 			HttpServletRequest request = getRequest();
@@ -240,6 +265,7 @@ public class WeixinPayController extends ApiController {
 			outSteam.close();
 			inStream.close();
 			String result  = new String(outSteam.toByteArray(),"utf-8");
+			System.out.println("callBack_xml>>>"+result);
 			/**
 			 * 获取返回的信息内容中各个参数的值
 			 */
@@ -324,6 +350,7 @@ public class WeixinPayController extends ApiController {
 				String xml = PaymentKit.toXml(prepayParams);
 				log.error(xml);
 				renderText(xml);
+				
 			}
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
@@ -333,6 +360,71 @@ public class WeixinPayController extends ApiController {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	/**
+	 * 扫码支付模式二
+	 */
+	public void scanCode2() {
+		
+		String openId="o_pncsidC-pRRfCP4zj98h6slREw";
+		String total_fee="10";
+		
+		// 统一下单文档地址：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
+		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("appid", appid);
+		params.put("mch_id", partner);
+		params.put("body", "Javen微信公众号极速开发");
+		String out_trade_no=System.currentTimeMillis()+"";
+		params.put("out_trade_no", out_trade_no);
+		int price=((int)(Float.valueOf(total_fee)*100));
+		params.put("total_fee", price+"");
+		params.put("attach", JsonKit.toJson(new PayAttach(out_trade_no, 2, 3)));
+		
+		String ip = IpKit.getRealIp(getRequest());
+		if (StrKit.isBlank(ip)) {
+			ip = "127.0.0.1";
+		}
+		
+		params.put("spbill_create_ip", ip);
+		params.put("trade_type", TradeType.NATIVE.name());
+		params.put("nonce_str", System.currentTimeMillis() / 1000 + "");
+		params.put("notify_url", notify_url);
+		params.put("openid", openId);
+
+		String sign = PaymentKit.createSign(params, paternerKey);
+		params.put("sign", sign);
+		
+		String xmlResult = PaymentApi.pushOrder(params);
+		
+		System.out.println(xmlResult);
+		Map<String, String> result = PaymentKit.xmlToMap(xmlResult);
+		
+		String return_code = result.get("return_code");
+		String return_msg = result.get("return_msg");
+		if (StrKit.isBlank(return_code) || !"SUCCESS".equals(return_code)) {
+			System.out.println(return_msg);
+			renderText(xmlResult);
+			return;
+		}
+		String result_code = result.get("result_code");
+		if (StrKit.isBlank(result_code) || !"SUCCESS".equals(result_code)) {
+			System.out.println(return_msg);
+			renderText(xmlResult);
+			return;
+		}
+		//生成预付订单success
+		
+		String qrCodeUrl = result.get("code_url");
+		String name = "payQRCode1.png";
+		Boolean encode = ZxingKit.encode(qrCodeUrl, BarcodeFormat.QR_CODE, 3, ErrorCorrectionLevel.H, "png", 200, 200,
+				PathKit.getWebRootPath()+File.separator+"view"+File.separator+name );
+		if (encode) {
+			//在页面上显示
+			setAttr("payQRCode", name);
+			render("payQRCode.jsp");
+		}
 	}
 }
 
