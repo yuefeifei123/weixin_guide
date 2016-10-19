@@ -1,19 +1,22 @@
 package com.javen.weixin.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.javen.face.FaceService;
 import com.javen.utils.WeiXinUtils;
 import com.javen.weixin.service.BaiduTranslate;
-import com.javen.weixin.template.DataItem2;
-import com.javen.weixin.template.TempItem;
-import com.javen.weixin.template.TempToJson;
 import com.jfinal.kit.PropKit;
 import com.jfinal.log.Log;
 import com.jfinal.weixin.sdk.api.ApiConfig;
+import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.weixin.sdk.api.ApiResult;
+import com.jfinal.weixin.sdk.api.CustomServiceApi;
+import com.jfinal.weixin.sdk.api.CustomServiceApi.Articles;
 import com.jfinal.weixin.sdk.api.SnsAccessTokenApi;
+import com.jfinal.weixin.sdk.api.TemplateData;
 import com.jfinal.weixin.sdk.api.TemplateMsgApi;
 import com.jfinal.weixin.sdk.jfinal.MsgControllerAdapter;
 import com.jfinal.weixin.sdk.msg.in.InImageMsg;
@@ -109,23 +112,68 @@ public class WeixinMsgController extends MsgControllerAdapter {
 			String urlStr="<a href=\""+url+"\">JSSDK</a>";
 			renderOutTextMsg("地址"+urlStr);
 		}	else if ("模板消息".equalsIgnoreCase(msgContent)) {
-			DataItem2 dataItem=new DataItem2();
-			dataItem.setFirst(new TempItem("您好,你已购买课程成功", "#743A3A"));
-			dataItem.setKeyword1(new TempItem("15FE65EGBE9823", "#FF0000"));
-			dataItem.setKeyword2(new TempItem("39.8元", "#c4c400"));
-			dataItem.setKeyword3(new TempItem("电吉他音乐一对一专业培训", "#c4c400"));
-			dataItem.setKeyword4(new TempItem("高老师020-12345678", "#c4c400"));
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyy年MM月dd日  HH时mm分ss秒");
+			
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy年MM月dd日  HH:mm:ss");
 			String time=sdf.format(new Date());
-			dataItem.setKeyword5(new TempItem(time, "#0000FF"));
-			dataItem.setRemark(new TempItem("请点击详情直接看课程直播，祝生活愉快", "#008000"));
+			String json = TemplateData.New()
+			.setTouser(inTextMsg.getFromUserName())
+			.setTemplate_id("BzC8RvHu1ICOQfO4N7kp6EWz9VAbISJjV2fO5t7MiXE")
+			.setTopcolor( "#743A3A")
+			.setUrl("http://www.cnblogs.com/zyw-205520/tag/%E5%BE%AE%E4%BF%A1/")
+			.add("first", "您好,你已购买课程成功", "#743A3A")
+			.add("keyword1", "微信公众号开发公开课", "#0000FF")
+			.add("keyword2", "免费", "#0000FF")
+			.add("keyword3", "Javen205","#0000FF")
+			.add("keyword4", time, "#0000FF")
+			.add("remark", "请点击详情直接看课程直播，祝生活愉快", "#008000")
+			.build();
+			System.out.println(json);
+			ApiResult result = TemplateMsgApi.send(json);
 			
-			String json=TempToJson.getTempJson("o_pncsidC-pRRfCP4zj98h6slREw", "7y1wUbeiYFsUONKH1IppVi47WwViICAjREZSdR3Zahc",
-					"#743A3A", "http://www.cnblogs.com/zyw-205520/tag/%E5%BE%AE%E4%BF%A1/", dataItem);
-			
-			ApiResult result=TemplateMsgApi.send(json);
 			 System.out.println(result.getJson());
+			 
 			 renderNull();
+		}else if("异步回复多个消息".equals(msgContent)){
+			final String toUser = inTextMsg.getFromUserName();
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					
+					ApiConfigKit.setThreadLocalApiConfig(getApiConfig()) ;
+					
+					ApiResult sendText = CustomServiceApi.sendText(toUser, "客服消息");
+					
+					System.out.println(sendText.getJson());
+					
+					List<Articles> list = new ArrayList<Articles>();
+					
+					Articles articles1=new Articles();
+					articles1.setTitle("测试异步回复多个消息");
+					articles1.setDescription("客服多图文消息");
+					articles1.setPicurl("http://img.pconline.com.cn/images/upload/upc/tx/wallpaper/1609/27/c0/27587202_1474952311163_800x600.jpg");
+					articles1.setUrl("http://www.cnblogs.com/zyw-205520/tag/%E5%BE%AE%E4%BF%A1/");
+					
+					
+					Articles articles2=new Articles();
+					articles2.setTitle("微信买单、刷卡、扫码、公众号支付");
+					articles2.setDescription("微信支付教程");
+					articles2.setPicurl("http://desk.fd.zol-img.com.cn/t_s960x600c5/g4/M01/0D/04/Cg-4WVP_npmIY6GRAKcKYPPMR3wAAQ8LgNIuTMApwp4015.jpg");
+					articles2.setUrl("http://www.jianshu.com/notebooks/2736169/latest");
+					
+					
+					list.add(articles2);
+					list.add(articles1);
+					
+					CustomServiceApi.sendNews(toUser, list );
+					
+				}
+			}).start();
+			
+			//回复被动响应消息
+			renderOutTextMsg("你发的内容为："+msgContent);
+			
+			
 		}
 		
 		else {

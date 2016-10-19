@@ -1,14 +1,15 @@
 package com.javen.weixin.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import com.javen.weixin.template.DataItem2;
-import com.javen.weixin.template.TempItem;
-import com.javen.weixin.template.TempToJson;
-import com.jfinal.kit.JsonKit;
 import com.jfinal.kit.PropKit;
-import com.jfinal.weixin.sdk.api.*;
+import com.jfinal.weixin.sdk.api.ApiConfig;
+import com.jfinal.weixin.sdk.api.ApiResult;
+import com.jfinal.weixin.sdk.api.CallbackIpApi;
+import com.jfinal.weixin.sdk.api.CustomServiceApi;
+import com.jfinal.weixin.sdk.api.MenuApi;
+import com.jfinal.weixin.sdk.api.QrcodeApi;
+import com.jfinal.weixin.sdk.api.ShorturlApi;
+import com.jfinal.weixin.sdk.api.TemplateMsgApi;
+import com.jfinal.weixin.sdk.api.UserApi;
 import com.jfinal.weixin.sdk.jfinal.ApiController;
 
 public class WeixinApiController extends ApiController {
@@ -187,28 +188,6 @@ public class WeixinApiController extends ApiController {
 	{
 		ApiResult apiResult = CallbackIpApi.getCallbackIp();
 		renderText(apiResult.getJson());
-	}
-	
-	
-	public void tem(){
-		DataItem2 dataItem=new DataItem2();
-		dataItem.setFirst(new TempItem("您好,你已成功购买课程", "#000000"));
-		dataItem.setKeyword1(new TempItem("123", "##000000"));
-		dataItem.setKeyword2(new TempItem("10.00元", "#000000"));
-		dataItem.setKeyword3(new TempItem("课程名称", "#000000"));
-		dataItem.setKeyword4(new TempItem("老师名称  联系方式", "#000000"));
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy年MM月dd日  HH时mm分ss秒");
-		String time=sdf.format(new Date());
-		dataItem.setKeyword5(new TempItem(time+"\n我们的专业客服人员会在24小时内与您联系，请注意接听我们的电话，再次感谢您的支持！", "#000000"));
-		dataItem.setRemark(new TempItem("\n请点击详情直接看课程直播，祝生活愉快", "#008000"));
-		
-		String json=TempToJson.getTempJson("o_pncsidC-pRRfCP4zj98h6slREw", "7y1wUbeiYFsUONKH1IppVi47WwViICAjREZSdR3Zahc",
-				"#743A3A", "http://mp.zhiqiangyy.com/ZQ/gensee/training?openId=o_pncsidC-pRRfCP4zj98h6slREw&id=5&time_end=20160420210032", dataItem);
-		
-		ApiResult result=TemplateMsgApi.send(json);
-		
-		System.out.println(JsonKit.toJson(result));
-		renderText(JsonKit.toJson(result));
 	}
 	
 }
