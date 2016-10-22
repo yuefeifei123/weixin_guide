@@ -15,10 +15,12 @@ import com.javen.model.Order;
 import com.javen.model.Stock;
 import com.javen.model.TUser;
 import com.javen.model.Users;
+import com.javen.weixin.controller.RedPackApiController;
 import com.javen.weixin.controller.WeiXinOauthController;
 import com.javen.weixin.controller.WeixinApiController;
 import com.javen.weixin.controller.WeixinMsgController;
 import com.javen.weixin.controller.WeixinPayController;
+import com.javen.weixin.controller.WeixinTransfersController;
 import com.javen.weixin.user.UserController;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -92,6 +94,9 @@ public class APPConfig extends JFinalConfig{
 		me.add("/wxuser", UserController.class,"/front");
 		me.add("/file", FileController.class,"/front");
 		me.add("/ajaxfile", AjaxFileContorlller.class,"/front");
+		
+		me.add("/read",RedPackApiController.class);
+		me.add("/transfers",WeixinTransfersController.class);
 	}
 	
 	/**

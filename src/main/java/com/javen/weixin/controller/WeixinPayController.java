@@ -369,7 +369,7 @@ public class WeixinPayController extends ApiController {
 	public void scanCode2() {
 		
 		String openId="o_pncsidC-pRRfCP4zj98h6slREw";
-		String total_fee="10";
+		String total_fee="2";
 		
 		// 统一下单文档地址：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
 		
