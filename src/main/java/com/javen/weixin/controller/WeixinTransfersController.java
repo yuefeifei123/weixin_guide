@@ -33,7 +33,7 @@ public class WeixinTransfersController extends Controller {
 		// 订单号
 		String orderNo = System.currentTimeMillis()+"";
 		// 真实姓名（可选）
-		String reUserName = "周业文";
+		String reUserName = "Javen205";
 		// 金额 单位：分
 		params.put("amount", "1");
 		// 是否验证姓名
