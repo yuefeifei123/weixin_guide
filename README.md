@@ -16,6 +16,7 @@ weixin_guide 是基于 JFinal 的微信公众号极速开发 SDK，只需浏览 
 10. [微信扫码支付](http://www.jianshu.com/p/474af73eb176)
 11. [微信刷卡支付](http://www.jianshu.com/p/ef6c9c5c5807)
 12. [微信模板消息](http://www.jianshu.com/p/eb0e9c4dcdfe)
+13. [微信红包](http://www.jianshu.com/p/c06120bc1f5c)
 
 ## 1、运行截图
 `详见请见`：[项目运行截图](http://git.oschina.net/javen205/weixin_guide/wikis/%E8%BF%90%E8%A1%8C%E6%95%88%E6%9E%9C%E5%9B%BE)
