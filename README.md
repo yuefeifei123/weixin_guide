@@ -8,7 +8,7 @@ weixin_guide 是基于 JFinal 的微信公众号极速开发 SDK，只需浏览 
 2. [开启开发模式](http://www.jianshu.com/p/a87d4b9f9424)
 3. [消息交互详解](http://www.jianshu.com/p/6e8caa616577)
 4. [自定义菜单](http://www.jianshu.com/p/41ce83878f05)
-5. [权获取用户信息](http://www.jianshu.com/p/01b04bdf9645)
+5. [授权获取用户信息](http://www.jianshu.com/p/01b04bdf9645)
 6. [一键导出微信所有用户信息到Excel](http://www.jianshu.com/p/fd34c859e069)
 7. [如何使用JSSDK](http://www.jianshu.com/p/bb88f7520b9e)
 8. [微信买单](http://www.jianshu.com/p/e28eb52830c5)
@@ -17,7 +17,8 @@ weixin_guide 是基于 JFinal 的微信公众号极速开发 SDK，只需浏览 
 11. [微信刷卡支付](http://www.jianshu.com/p/ef6c9c5c5807)
 12. [微信模板消息](http://www.jianshu.com/p/eb0e9c4dcdfe)
 13. [微信红包](http://www.jianshu.com/p/c06120bc1f5c)
-
+14. [会员注册、找回密码、登陆（邮箱与手机验证码）](http://www.jianshu.com/p/c06120bc1f5c)
+ 
 ## 1、运行截图
 `详见请见`：[项目运行截图](http://git.oschina.net/javen205/weixin_guide/wikis/%E8%BF%90%E8%A1%8C%E6%95%88%E6%9E%9C%E5%9B%BE)
 
