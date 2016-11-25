@@ -554,8 +554,6 @@ System.out.println(xmlResult);
 System.out.println("最新返回apk的参数:"+jsonStr);
 		renderJson(jsonStr);
 	}
-	
-	
 }
 
 
