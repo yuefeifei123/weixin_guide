@@ -2,6 +2,7 @@ package com.javen.common;
 
 import java.io.File;
 
+import com.javen.alipay.AliPayController;
 import com.javen.controller.AjaxController;
 import com.javen.controller.AjaxFileContorlller;
 import com.javen.controller.ConstellationController;
@@ -97,6 +98,7 @@ public class APPConfig extends JFinalConfig{
 		
 		me.add("/read",RedPackApiController.class);
 		me.add("/transfers",WeixinTransfersController.class);
+		me.add("/alipay",AliPayController.class);
 	}
 	
 	/**
