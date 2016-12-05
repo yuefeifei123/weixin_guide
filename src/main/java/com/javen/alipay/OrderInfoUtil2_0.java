@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
 
 import com.javen.utils.DateTime;
 import com.jfinal.kit.JsonKit;
@@ -67,16 +66,17 @@ public class OrderInfoUtil2_0 {
 	 * @param app_id
 	 * @return
 	 */
-	public static Map<String, String> buildOrderParamMap(String app_id,BizContent bizContent) {
+	public static Map<String, String> buildOrderParamMap(String app_id,String notify_url,BizContent bizContent) {
 		Map<String, String> keyValues = new HashMap<String, String>();
 
 		keyValues.put("app_id", app_id);
 		keyValues.put("method", "alipay.trade.app.pay");
+		keyValues.put("format", "json");
 		keyValues.put("charset", "utf-8");
 		keyValues.put("sign_type", "RSA");
 		keyValues.put("timestamp", new DateTime().toDateTimeString());
 		keyValues.put("version", "1.0");
-		keyValues.put("notify_url", "1.0");
+		keyValues.put("notify_url", notify_url);
 		keyValues.put("biz_content", JsonKit.toJson(bizContent));
 		return keyValues;
 	}
@@ -90,7 +90,7 @@ public class OrderInfoUtil2_0 {
 	 */
 	public static String buildOrderParam(Map<String, String> map) {
 		List<String> keys = new ArrayList<String>(map.keySet());
-
+		
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < keys.size() - 1; i++) {
 			String key = keys.get(i);
@@ -102,7 +102,6 @@ public class OrderInfoUtil2_0 {
 		String tailKey = keys.get(keys.size() - 1);
 		String tailValue = map.get(tailKey);
 		sb.append(buildKeyValue(tailKey, tailValue, true));
-
 		return sb.toString();
 	}
 	
@@ -142,7 +141,7 @@ public class OrderInfoUtil2_0 {
 		List<String> keys = new ArrayList<String>(map.keySet());
 		// key排序
 		Collections.sort(keys);
-
+		
 		StringBuilder authInfo = new StringBuilder();
 		for (int i = 0; i < keys.size() - 1; i++) {
 			String key = keys.get(i);
@@ -174,9 +173,7 @@ public class OrderInfoUtil2_0 {
 		SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss", Locale.getDefault());
 		Date date = new Date();
 		String key = format.format(date);
-
-		Random r = new Random();
-		key = key + r.nextInt();
+		key = key + System.currentTimeMillis();
 		key = key.substring(0, 15);
 		return key;
 	}

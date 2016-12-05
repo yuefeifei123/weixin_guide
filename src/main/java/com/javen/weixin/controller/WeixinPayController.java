@@ -500,7 +500,7 @@ public class WeixinPayController extends ApiController {
 		params.put("appid", appid);
 		params.put("mch_id", partner);
 		params.put("nonce_str", System.currentTimeMillis() / 1000 + "");
-		params.put("body", "Javen微信公众号极速开发");
+		params.put("body", "Javen微信支付测试");
 		String out_trade_no=System.currentTimeMillis()+"";
 		params.put("attach", "custom json");
 		params.put("out_trade_no", out_trade_no);

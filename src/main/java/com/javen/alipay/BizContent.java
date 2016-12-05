@@ -14,7 +14,6 @@ public class BizContent {
 	private String product_code;//固定制QUICK_MSECURITY_PAY
 	private String passback_params;//回传参数
 	
-	
 	public BizContent() {
 	}
 	
@@ -54,6 +53,4 @@ public class BizContent {
 	public void setPassback_params(String passback_params) {
 		this.passback_params = passback_params;
 	}
-
-	
 }
