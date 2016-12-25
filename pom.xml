@@ -148,11 +148,11 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.wltea.analyzer</groupId>
-			<artifactId>IKAnalyzer</artifactId>
-			<version>2012FF_u1</version>
+			<groupId>com.alibaba</groupId>
+			<artifactId>alipay-sdk-java</artifactId>
+			<version>20161129201425</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/alipay-sdk-java20161121110022.jar</systemPath>
+			<systemPath>${project.basedir}/lib/alipay-sdk-java20161129201425.jar</systemPath>
 		</dependency>
 
 		<dependency>

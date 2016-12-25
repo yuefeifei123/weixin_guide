@@ -1,24 +1,28 @@
 package com.javen.alipay;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.javen.vo.AjaxResult;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.HttpKit;
 import com.jfinal.kit.JsonKit;
 import com.jfinal.kit.Prop;
 import com.jfinal.kit.PropKit;
+import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
-
 public class AliPayController extends Controller {
 	private static final Prop prop = PropKit.use("alipay.properties");
 	private Log log=Log.getLog(AliPayController.class);
 	private AjaxResult result = new AjaxResult();
-	private boolean isDebug = false;
+	private boolean isDebug = true;
 	/**
 	 * App支付
 	 */
@@ -110,13 +114,15 @@ System.out.println("rsa_private:"+rsa_private);
 	private static final Prop webProp = PropKit.use("alipay_web.properties");
 	static AlipayClient alipayClient;
 	static String charset = "UTF-8";
+	static String privateKey=null;
+	static String alipayPulicKey=null;
 	static{
 		String serverUrl = webProp.get("serverUrl");
 		String appId = webProp.get("appId");
-		String privateKey = webProp.get("privateKey");
+		privateKey = webProp.get("privateKey");
 		String format = "json";
 		
-		String alipayPulicKey = webProp.get("alipayPulicKey");
+		alipayPulicKey= webProp.get("alipayPulicKey");
 		alipayClient = new DefaultAlipayClient(serverUrl, appId, privateKey, format, charset, alipayPulicKey);
 	}
 	/**
@@ -124,7 +130,7 @@ System.out.println("rsa_private:"+rsa_private);
 	 */
 	public void wapPay(){
 		String body="我是测试数据";
-		String subject="Iphone6 16G";
+		String subject="Javen 测试";
 		String total_amount="0.01";
 		String passback_params="1";
 		
@@ -139,8 +145,8 @@ System.out.println("rsa_private:"+rsa_private);
 		
 		try {
 			AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();//创建API对应的request
-			alipayRequest.setReturnUrl("http://javen.ittun.com/alipay/return_url");
-			alipayRequest.setNotifyUrl("http://javen.ittun.com/alipay/notify_url");//在公共参数中设置回跳和通知地址
+			alipayRequest.setReturnUrl("http://javen.tunnel.qydev.com/alipay/return_url");
+			alipayRequest.setNotifyUrl("http://javen.tunnel.qydev.com/alipay/notify_url");//在公共参数中设置回跳和通知地址
 			//参数参考 https://doc.open.alipay.com/doc2/detail.htm?treeId=203&articleId=105463&docType=1#s0
 			System.out.println(JsonKit.toJson(content));
 			alipayRequest.setBizContent(JsonKit.toJson(content));//填充业务参数
@@ -160,12 +166,50 @@ System.out.println("rsa_private:"+rsa_private);
 		//total_amount=0.01&timestamp=2016-12-02+18%3A11%3A42&sign=vPhxaI5bf7uSab9HuqQ4fvjLOggzpnnLK9svOdZCZ9N1mge4qm63R4k%2FowlTHbwyGCNG0%2F4PthfYbjFx22%2B2WpBNvccxajw%2Btba1Aab6EKPOAW8BoLLFFwgExtLB9ydhWL5kpP8YSLolO%2F9pkGBy5TNldz7HxdB2j6vISrD8qCs%3D&trade_no=2016120221001004200200187882&sign_type=RSA&auth_app_id=2016102000727659&charset=UTF-8&seller_id=2088102180432465&method=alipay.trade.wap.pay.return&app_id=2016102000727659&out_trade_no=120218111214806&version=1.0
 		String params = getRequest().getQueryString();
 		System.out.println("return_url回调参数："+params);
-		renderText(params);
+		renderText("return_url回调参数："+params);
 		
 	}
 	public void notify_url(){
-		String params = getRequest().getQueryString();
-		System.out.println("web支付回调参数："+params);
-		renderText(params);
+		String params =HttpKit.readData(getRequest());
+		try {
+			Map<String, String> paramsMap = getParameterMap(params);//将异步通知中收到的所有参数都存放到map中
+			for(Map.Entry<String, String> entry:paramsMap.entrySet()){    
+			     System.out.println(entry.getKey()+"--->"+entry.getValue());    
+			}   
+			System.out.println("alipayPulicKey>"+alipayPulicKey);
+			boolean signVerified = AlipaySignature.rsaCheckV1(paramsMap, alipayPulicKey, charset); //调用SDK验证签名
+			if(signVerified){
+				// TODO 验签成功后，按照支付结果异步通知中的描述，对支付结果中的业务内容进行二次校验，校验成功后在response中返回success并继续商户自身业务处理，校验失败返回failure
+				renderText("success");
+			}else{
+				// TODO 验签失败则记录异常日志，并在response中返回failure.
+				renderText("failure");
+			}
+		} catch (AlipayApiException e) {
+			e.printStackTrace();
+		}
+		renderText("failure");
 	}
+	
+	/** 
+	 * 从request中获得参数Map，并返回可读的Map 
+	 *  
+	 * @param request 
+	 * @return 
+	 */  
+	private   Map<String,String> getParameterMap(String params) { 
+		 // 返回值Map 
+		Map<String,String> returnMap =null;
+		if (!StrKit.isBlank(params)) {
+			returnMap = new HashMap<String,String>();  
+			String[] KeyValues = params.split("&");
+			for (int i = 0; i < KeyValues.length; i++) {
+				String[] keyValue = KeyValues[i].split("=");
+				returnMap.put(keyValue[0], keyValue[1]);
+			}
+		}
+		
+	    return returnMap;  
+	} 
+
 }
