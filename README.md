@@ -32,7 +32,11 @@ weixin_guide 是基于 JFinal 的微信公众号极速开发 SDK，只需浏览 
 `欢迎更多同学来帮助完善！`
 
 ## 3、版本更新记录
-`详见请见`：[更新说明](http://git.oschina.net/javen205/weixin_guide/wikis/%E7%89%88%E6%9C%AC%E6%9B%B4%E6%96%B0%E8%AE%B0%E5%BD%95)
+- 2017-01-07 v1.1 
+    添加支付宝支付以及微信App支付 
+    C3p0换成Druid
+- 2016-12-07 v1.0 基础版本
+
 
 如发现`bug`或者有更好的建议以及意见请发`Issues` 帮助项目迭代更新
 
