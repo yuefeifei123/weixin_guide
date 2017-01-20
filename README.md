@@ -22,6 +22,7 @@ weixin_guide 是基于 JFinal 的微信公众号极速开发 SDK，只需浏览 
 16. [推广支持](http://www.jianshu.com/p/5e5ab481e326)
 17. [支付宝Wap支付](http://www.jianshu.com/p/7656de831a2c)
 18. [支付宝APP支付](http://www.jianshu.com/p/3d91248aea4b)
+19. [一张二维码同时支持微信、支付宝支付](http://www.jianshu.com/p/24be0fecf19a)
  
 ## 1、运行截图
 `详见请见`：[项目运行截图](http://git.oschina.net/javen205/weixin_guide/wikis/%E8%BF%90%E8%A1%8C%E6%95%88%E6%9E%9C%E5%9B%BE)

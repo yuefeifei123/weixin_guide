@@ -9,6 +9,7 @@ import com.alibaba.druid.wall.WallFilter;
 import com.javen.alipay.AliPayController;
 import com.javen.controller.AjaxController;
 import com.javen.controller.AjaxFileContorlller;
+import com.javen.controller.AllPayController;
 import com.javen.controller.ConstellationController;
 import com.javen.controller.FileController;
 import com.javen.controller.IndexController;
@@ -107,6 +108,7 @@ public class APPConfig extends JFinalConfig {
 		me.add("/read", RedPackApiController.class);
 		me.add("/transfers", WeixinTransfersController.class);
 		me.add("/alipay", AliPayController.class);
+		me.add("/allpay", AllPayController.class);
 	}
 
 	/**
