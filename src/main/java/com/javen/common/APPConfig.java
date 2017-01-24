@@ -45,6 +45,7 @@ import com.jfinal.plugin.druid.DruidStatViewHandler;
 import com.jfinal.plugin.druid.IDruidStatViewAuth;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.render.ViewType;
+import com.jfinal.template.Engine;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
 
 /**
@@ -180,6 +181,11 @@ public class APPConfig extends JFinalConfig {
 	 */
 	public static void main(String[] args) {
 		JFinal.start("src/main/webapp", 8080, "/", 5);// 启动配置项
+	}
+
+	@Override
+	public void configEngine(Engine arg0) {
+		
 	}
 
 }
