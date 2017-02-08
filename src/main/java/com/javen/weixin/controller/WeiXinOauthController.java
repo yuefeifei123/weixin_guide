@@ -100,6 +100,42 @@ public class WeiXinOauthController extends ApiController{
 		}
 	}
 	
-	
+	/**
+	 * PC扫码登陆回调 
+	 * 获取AccessToken以及用户信息跟微信公众号授权用户用户信息一样
+	 */
+	public void webCallBack() {
+		//用户同意授权，获取code
+		String code=getPara("code");
+		String state=getPara("state");
+		if (code!=null) {
+			System.out.println("code>"+code+" state>"+state);
+			String appId=PropKit.get("webAppId");
+			String secret=PropKit.get("webAppSecret");
+			//通过code换取网页授权access_token
+			SnsAccessToken snsAccessToken=SnsAccessTokenApi.getSnsAccessToken(appId,secret,code);
+			String json=snsAccessToken.getJson();
+System.out.println("通过code获取access_token>>"+json);			
+			String token=snsAccessToken.getAccessToken();
+			String openId=snsAccessToken.getOpenid();
+			//拉取用户信息(需scope为 snsapi_userinfo)
+			ApiResult apiResult=SnsApi.getUserInfo(token, openId);
+			
+log.warn("getUserInfo:"+apiResult.getJson());
+			if (apiResult.isSucceed()) {
+				JSONObject jsonObject=JSON.parseObject(apiResult.getJson());
+				String nickName=jsonObject.getString("nickname");
+				//用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
+				int sex=jsonObject.getIntValue("sex");
+				String city=jsonObject.getString("city");//城市
+				String province=jsonObject.getString("province");//省份
+				String country=jsonObject.getString("country");//国家
+				String headimgurl=jsonObject.getString("headimgurl");
+				String unionid=jsonObject.getString("unionid");
+			}
+			renderText("通过code获取access_token>>"+json+"  \n"+"getUserInfo:"+apiResult.getJson());
+		}
+		
+	}
 	
 }

@@ -29,6 +29,12 @@ public class IndexController extends Controller{
 		String url=SnsAccessTokenApi.getAuthorizeURL(PropKit.get("appId"), calbackUrl, "111",false);
 		redirect(url);
 	}
+	//pc扫描登陆
+	public void toWebOauth(){
+		String calbackUrl=PropKit.get("domain")+"/oauth/webCallBack";
+		String url=SnsAccessTokenApi.getQrConnectURL(PropKit.get("webAppId"), calbackUrl,"666");
+		redirect(url);
+	}
 	
 	public void index() {
 		String openId = getSessionAttr("openId");
