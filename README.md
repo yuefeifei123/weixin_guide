@@ -45,7 +45,8 @@ weixin_guide 是基于 JFinal 的微信公众号极速开发 SDK，只需浏览 
 ## 4、JFinal weixin的使用参考
 `详情请见`：[JFinal weixin中的配置以及接口的使用](http://git.oschina.net/jfinal/jfinal-weixin/wikis/home)
 
-## 5、非Maven用户得到所有依赖 jar 包两种方法
+## 5、非Maven用户得到所有依赖 jar 包的方法
+- 点击导航栏附件直接下载jar
 - 将项目导入eclipse jee中，使用 export 功能导出 war包，其中的 WEB-INF/lib 下面会自动生成 jar 包
 - 让使用 maven 的朋友使用 mvn package 打出 war包，其中的 WEB-INF/lib 下面会自动生成 jar 包
 - 以上两种方法注意要先将pom.xml中的导出类型设置为 war，添加 <packaging>war</packaging> 内容进去即可
@@ -57,7 +58,6 @@ weixin_guide 是基于 JFinal 的微信公众号极速开发 SDK，只需浏览 
 - 交流群：148540125(备注项目名称、进群发广告T)
 - Email：javen205@126.com
 
-> 说明：目前创建的群都已满，现在入群收费，入群后请修改昵称（地区+昵称）。为什么收费？因为所有群都满，创建群个数也达到的上限，只能开会员扩展。如果有洁癖觉得群人多消息太多会对你有影响，那么你可以加我为好友（572839485 企鹅微信同号）并发红包（大于30）进入VIP群一对一交流
 
 ## 7、鸣谢
 
