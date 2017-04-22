@@ -4,6 +4,8 @@ weixin_guide 是基于 JFinal 的微信公众号极速开发 SDK，只需浏览 
 
 ### 博客
 
+[**10分钟搭建属于自己的ngork服务器，实现内网穿透**](http://blog.csdn.net/zyw_java/article/details/70341106)
+
 1. [项目下载并导入IDE](http://blog.csdn.net/zyw_java/article/details/61415051)
 2. [开启开发模式](http://blog.csdn.net/zyw_java/article/details/61415205)
 3. [消息交互详解](http://blog.csdn.net/zyw_java/article/details/61415102)
@@ -55,8 +57,11 @@ weixin_guide 是基于 JFinal 的微信公众号极速开发 SDK，只需浏览 
 
 
 ## 6、更多支持
-- 交流群：148540125(备注项目名称、进群发广告T)
+- 交流群：[![QQ](http://pub.idqqimg.com/wpa/images/group.png)](https://jq.qq.com/?_wv=1027&k=47koFFR)(备注项目名称、进群发广告T)
 - Email：javen205@126.com
+
+<img src="http://i1.piimg.com/4851/0aa3b5318deec2b6.jpg" width = "200" alt="欢迎加入微信圈子" align=center />
+
 
 
 ## 7、鸣谢
