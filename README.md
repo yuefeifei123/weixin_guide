@@ -1,10 +1,12 @@
 # Javen 微信公众号极速开发
-weixin_guide 是基于 JFinal 的微信公众号极速开发 SDK，只需浏览 Demo 代码即可进行极速开发，自 JFinal Weixin 1.2 版本开始已添加对多公众号支持。
+weixin_guide 是基于jfinal_weixin SDK开发的实战项目。
 
 
 ### 博客
 
 [**10分钟搭建属于自己的ngork服务器，实现内网穿透**](http://blog.csdn.net/zyw_java/article/details/70341106)
+
+[**Android 微信、支付App支付SDK**](http://git.oschina.net/javen205/JPay)
 
 1. [项目下载并导入IDE](http://blog.csdn.net/zyw_java/article/details/61415051)
 2. [开启开发模式](http://blog.csdn.net/zyw_java/article/details/61415205)
