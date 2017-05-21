@@ -8,6 +8,8 @@ weixin_guide 是基于jfinal_weixin SDK开发的实战项目。
 
 [**Android 微信、支付App支付SDK**](http://git.oschina.net/javen205/JPay)
 
+[**IJPay 让支付触手可及，实现微信、支付宝系列支付**](http://git.oschina.net/javen205/IJPay)
+
 1. [项目下载并导入IDE](http://blog.csdn.net/zyw_java/article/details/61415051)
 2. [开启开发模式](http://blog.csdn.net/zyw_java/article/details/61415205)
 3. [消息交互详解](http://blog.csdn.net/zyw_java/article/details/61415102)
@@ -62,7 +64,7 @@ weixin_guide 是基于jfinal_weixin SDK开发的实战项目。
 - 交流群：[![QQ](http://pub.idqqimg.com/wpa/images/group.png)](https://jq.qq.com/?_wv=1027&k=47koFFR)(备注项目名称、进群发广告T)
 - Email：javen205@126.com
 
-<img src="http://i1.piimg.com/4851/0aa3b5318deec2b6.jpg" width = "200" alt="欢迎加入微信圈子" align=center />
+<img src="http://img.blog.csdn.net/20170425211154361?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvenl3X2phdmE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width = "200" alt="如果对你有帮助，请随意打赏支持" align=center />
 
 
 
