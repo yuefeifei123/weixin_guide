@@ -108,7 +108,6 @@ public class APPConfig extends JFinalConfig {
 
 		me.add("/read", RedPackApiController.class);
 		me.add("/transfers", WeixinTransfersController.class);
-		me.add("/alipay", AliPayController.class);
 		me.add("/allpay", AllPayController.class);
 	}
 
