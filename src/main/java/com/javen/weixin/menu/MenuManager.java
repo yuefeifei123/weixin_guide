@@ -8,7 +8,6 @@ package com.javen.weixin.menu;
 
 import com.jfinal.kit.JsonKit;
 import com.jfinal.weixin.sdk.api.ApiConfig;
-import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.weixin.sdk.api.ApiResult;
 import com.jfinal.weixin.sdk.api.MenuApi;
 
@@ -31,7 +30,6 @@ public class MenuManager  {
 			ac.setAppSecret("19a02e4927d346484fc70327970457f9");
 //			ac.setAppId(PropKit.get("appId"));
 //			ac.setAppSecret(PropKit.get("appSecret"));
-		    ApiConfigKit.setThreadLocalApiConfig(ac);
 		   
 		   //创建菜单
 	       ApiResult apiResult=MenuApi.createMenu(jsonMenu);

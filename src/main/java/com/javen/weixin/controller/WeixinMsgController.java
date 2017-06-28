@@ -11,7 +11,6 @@ import com.javen.weixin.service.BaiduTranslate;
 import com.jfinal.kit.PropKit;
 import com.jfinal.log.Log;
 import com.jfinal.weixin.sdk.api.ApiConfig;
-import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.weixin.sdk.api.ApiResult;
 import com.jfinal.weixin.sdk.api.CustomServiceApi;
 import com.jfinal.weixin.sdk.api.CustomServiceApi.Articles;
@@ -118,7 +117,6 @@ public class WeixinMsgController extends MsgControllerAdapter {
 			String json = TemplateData.New()
 			.setTouser(inTextMsg.getFromUserName())
 			.setTemplate_id("BzC8RvHu1ICOQfO4N7kp6EWz9VAbISJjV2fO5t7MiXE")
-			.setTopcolor( "#743A3A")
 			.setUrl("http://www.cnblogs.com/zyw-205520/tag/%E5%BE%AE%E4%BF%A1/")
 			.add("first", "您好,你已购买课程成功", "#743A3A")
 			.add("keyword1", "微信公众号开发公开课", "#0000FF")
@@ -140,7 +138,6 @@ public class WeixinMsgController extends MsgControllerAdapter {
 				@Override
 				public void run() {
 					
-					ApiConfigKit.setThreadLocalApiConfig(getApiConfig()) ;
 					
 					ApiResult sendText = CustomServiceApi.sendText(toUser, "客服消息");
 					

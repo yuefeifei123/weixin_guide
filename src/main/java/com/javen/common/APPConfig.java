@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.wall.WallFilter;
-import com.javen.alipay.AliPayController;
 import com.javen.controller.AjaxController;
 import com.javen.controller.AjaxFileContorlller;
 import com.javen.controller.AllPayController;
@@ -46,6 +45,7 @@ import com.jfinal.plugin.druid.IDruidStatViewAuth;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.render.ViewType;
 import com.jfinal.template.Engine;
+import com.jfinal.weixin.sdk.api.ApiConfig;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
 
 /**
@@ -54,6 +54,28 @@ import com.jfinal.weixin.sdk.api.ApiConfigKit;
 public class APPConfig extends JFinalConfig {
 	static Log log = Log.getLog(WeixinMsgController.class);
 
+	/**
+	 * 如果要支持多公众账号，只需要在此返回各个公众号对应的 ApiConfig 对象即可 可以通过在请求 url 中挂参数来动态从数据库中获取
+	 * ApiConfig 属性值
+	 */
+	public ApiConfig getApiConfig() {
+		ApiConfig ac = new ApiConfig();
+
+		// 配置微信 API 相关常量
+		ac.setToken(PropKit.get("token"));
+		ac.setAppId(PropKit.get("appId"));
+		ac.setAppSecret(PropKit.get("appSecret"));
+
+		/**
+		 * 是否对消息进行加密，对应于微信平台的消息加解密方式： 1：true进行加密且必须配置 encodingAesKey
+		 * 2：false采用明文模式，同时也支持混合模式
+		 */
+		ac.setEncryptMessage(PropKit.getBoolean("encryptMessage", false));
+		ac.setEncodingAesKey(PropKit.get("encodingAesKey",
+				"setting it in config file"));
+		return ac;
+	}
+	
 	/**
 	 * 如果生产环境配置文件存在，则优先加载该配置，否则加载开发环境配置文件
 	 * 
@@ -172,6 +194,11 @@ public class APPConfig extends JFinalConfig {
 			}
 		});
 		me.add(dvh);
+	}
+	
+	@Override
+	public void afterJFinalStart() {
+		ApiConfigKit.putApiConfig(getApiConfig());
 	}
 
 	/**

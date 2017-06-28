@@ -114,7 +114,6 @@ public class WeiXinUtils {
 		String time=sdf.format(new Date());
 		ApiResult result = TemplateMsgApi.send(TemplateData.New()
 				.setTemplate_id("7y1wUbeiYFsUONKH1IppVi47WwViICAjREZSdR3Zahc")
-				.setTopcolor("#743A3A")
 				.setTouser(openId)
 				.setUrl(url)
 				.add("first", "您好,你已成功购买课程", "#000000")
@@ -135,7 +134,6 @@ public class WeiXinUtils {
 		String time=sdf.format(new Date());
 		ApiResult result = TemplateMsgApi.send(TemplateData.New()
 				.setTemplate_id("7y1wUbeiYFsUONKH1IppVi47WwViICAjREZSdR3Zahc")
-				.setTopcolor("#743A3A")
 				.setTouser(openId)
 				.setUrl(url)
 				.add("first", "您好,你已成功购买课程", "#000000")
@@ -156,7 +154,6 @@ public class WeiXinUtils {
 		String time=sdf.format(new Date());
 		ApiResult result = TemplateMsgApi.send(TemplateData.New()
 				.setTemplate_id("7y1wUbeiYFsUONKH1IppVi47WwViICAjREZSdR3Zahc")
-				.setTopcolor("#743A3A")
 				.setTouser(openId)
 				.setUrl(url)
 				.add("first", "您好,你已成功购买课程", "#000000")
