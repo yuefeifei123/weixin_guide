@@ -15,6 +15,7 @@ import com.jfinal.kit.JsonKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.weixin.sdk.api.SnsAccessTokenApi;
+import com.jfinal.weixin.sdk.api.SnsApi;
 
 /**
  * @author Javen

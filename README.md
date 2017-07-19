@@ -4,6 +4,8 @@ weixin_guide 是基于jfinal_weixin SDK开发的实战项目。
 
 ### 博客
 
+[**简易的微信公众号管理平台**](http://git.oschina.net/javen205/weixin_pro)
+
 [**10分钟搭建属于自己的ngork服务器，实现内网穿透**](http://blog.csdn.net/zyw_java/article/details/70341106)
 
 [**Android 微信、支付App支付SDK**](http://git.oschina.net/javen205/JPay)

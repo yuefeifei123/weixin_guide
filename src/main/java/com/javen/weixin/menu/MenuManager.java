@@ -8,6 +8,7 @@ package com.javen.weixin.menu;
 
 import com.jfinal.kit.JsonKit;
 import com.jfinal.weixin.sdk.api.ApiConfig;
+import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.weixin.sdk.api.ApiResult;
 import com.jfinal.weixin.sdk.api.MenuApi;
 
@@ -26,10 +27,13 @@ public class MenuManager  {
 		   ApiConfig ac = new ApiConfig();
 			
 			// 配置微信 API 相关常量
-			ac.setAppId("wx614c453e0d1dcd12");
+		   String appId = "wx614c453e0d1dcd12";
+			ac.setAppId(appId);
 			ac.setAppSecret("19a02e4927d346484fc70327970457f9");
 //			ac.setAppId(PropKit.get("appId"));
 //			ac.setAppSecret(PropKit.get("appSecret"));
+			ApiConfigKit.putApiConfig(ac);
+			ApiConfigKit.setThreadLocalAppId(appId);
 		   
 		   //创建菜单
 	       ApiResult apiResult=MenuApi.createMenu(jsonMenu);
