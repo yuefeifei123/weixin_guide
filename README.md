@@ -32,6 +32,7 @@ weixin_guide 是基于jfinal_weixin SDK开发的实战项目。
 18. [支付宝APP支付](http://www.jianshu.com/p/3d91248aea4b)
 19. [一张二维码同时支持微信、支付宝支付](http://blog.csdn.net/zyw_java/article/details/54630880)
 20. [PC微信扫码登陆、UnionID机制获取用户基本信息](http://blog.csdn.net/zyw_java/article/details/55001080)
+21. [微信一次性订阅消息](http://blog.csdn.net/zyw_java/article/details/76222006)
  
 ## 1、运行截图
 `详见请见`：[项目运行截图](http://git.oschina.net/javen205/weixin_guide/wikis/%E8%BF%90%E8%A1%8C%E6%95%88%E6%9E%9C%E5%9B%BE)
