@@ -13,6 +13,7 @@ import com.javen.controller.ConstellationController;
 import com.javen.controller.FileController;
 import com.javen.controller.IndexController;
 import com.javen.controller.JSSDKController;
+import com.javen.controller.SubscribeMsgController;
 import com.javen.controller.TUserController;
 import com.javen.model.Course;
 import com.javen.model.Idea;
@@ -131,6 +132,7 @@ public class APPConfig extends JFinalConfig {
 		me.add("/read", RedPackApiController.class);
 		me.add("/transfers", WeixinTransfersController.class);
 		me.add("/allpay", AllPayController.class);
+		me.add("/subscribemsg", SubscribeMsgController.class);
 	}
 
 	/**
