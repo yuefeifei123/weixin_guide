@@ -8,6 +8,8 @@ weixin_guide 是基于jfinal_weixin SDK开发的实战项目。
 
 [**10分钟搭建属于自己的ngork服务器，实现内网穿透**](http://blog.csdn.net/zyw_java/article/details/70341106)
 
+[**SpringBoot 2.x 集成QQ邮箱、网易系邮箱、Gmail邮箱发送邮件**](https://my.oschina.net/zyw205/blog/1918222)
+
 [**Android 微信、支付App支付SDK**](http://git.oschina.net/javen205/JPay)
 
 [**IJPay 让支付触手可及，实现微信、支付宝系列支付**](http://git.oschina.net/javen205/IJPay)
